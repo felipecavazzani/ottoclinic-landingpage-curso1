@@ -299,10 +299,10 @@ export default function App() {
           <SectionTitle subtitle>Resultados Reais</SectionTitle>
           <div className="grid md:grid-cols-2 gap-8">
             {[
-              { img: "https://images.unsplash.com/photo-1512677859289-868722942457?auto=format&fit=crop&q=80&w=800", label: "Definição de contorno corporal com técnica de Mini Lipo", tag: "Caso 1 (flanco + culote)" },
-              { img: "https://images.unsplash.com/photo-1515377666659-81735e0ff041?auto=format&fit=crop&q=80&w=800", label: "Técnica aplicada com precisão e resultado natural", tag: "Abdômen intra + resultado" },
-              { img: "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?auto=format&fit=crop&q=80&w=800", label: "Redução de volume e melhora de contorno", tag: "Caso lateral + posterior" },
-              { img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800", label: "Harmonização corporal com resultado proporcional", tag: "Abdômen completo" }
+              { img: "https://i.imgur.com/CzdsDzp.jpeg", label: "Definição de contorno corporal com técnica de Mini Lipo", tag: "Caso 1 (flanco + culote)" },
+              { img: "https://i.imgur.com/KNwhwUB.jpeg", label: "Técnica aplicada com precisão e resultado natural", tag: "Abdômen intra + resultado" },
+              { img: "https://i.imgur.com/zk8LK48.jpeg", label: "Redução de volume e melhora de contorno", tag: "Caso lateral + posterior" },
+              { img: "https://i.imgur.com/pRMYM78.jpeg", label: "Harmonização corporal com resultado proporcional", tag: "Abdômen completo" }
             ].map((item, i) => (
               <div key={i} className="group relative overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-800">
                 <img 
