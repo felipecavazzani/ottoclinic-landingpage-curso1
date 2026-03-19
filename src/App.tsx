@@ -87,7 +87,7 @@ export default function App() {
       <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/90 backdrop-blur-md py-4 border-b border-zinc-800' : 'bg-transparent py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <div className="flex flex-col">
-            <span className="text-white font-serif text-xl tracking-tighter">DR. LUIZ FRANCISCO FRANCO</span>
+            <span className="text-white font-serif text-xl tracking-tighter">DR. FRANCISCO FRANCO</span>
             <span className="text-[10px] text-[#D4AF37] tracking-[0.2em] uppercase">Ottoclinic</span>
           </div>
           <a 
@@ -433,7 +433,7 @@ export default function App() {
       <footer className="py-12 bg-black border-t border-zinc-900">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start">
-            <span className="text-white font-serif text-2xl tracking-tighter">DR. LUIZ FRANCISCO FRANCO</span>
+            <span className="text-white font-serif text-2xl tracking-tighter">DR. FRANCISCO FRANCO</span>
             <span className="text-xs text-[#D4AF37] tracking-[0.2em] uppercase">Ottoclinic</span>
           </div>
           <div className="flex gap-6">
