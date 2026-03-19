@@ -64,13 +64,30 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const [timeLeft, setTimeLeft] = useState(15 * 60 + 42);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 15 * 60));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return { m: m.toString().padStart(2, '0'), s: s.toString().padStart(2, '0') };
+  };
+
+  const time = formatTime(timeLeft);
+
   return (
     <div className="min-h-screen bg-black text-zinc-300 font-sans selection:bg-[#D4AF37] selection:text-black">
       {/* Navigation */}
       <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/90 backdrop-blur-md py-4 border-b border-zinc-800' : 'bg-transparent py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <div className="flex flex-col">
-            <span className="text-white font-serif text-xl tracking-tighter">DR. LUIZ FRANCISCO</span>
+            <span className="text-white font-serif text-xl tracking-tighter">DR. LUIZ FRANCISCO FRANCO</span>
             <span className="text-[10px] text-[#D4AF37] tracking-[0.2em] uppercase">Ottoclinic</span>
           </div>
           <a 
@@ -89,8 +106,8 @@ export default function App() {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent z-10" />
           <img 
-            src="https://i.imgur.com/nKg1cyM.png" 
-            alt="Dr. Luiz Francisco" 
+            src="https://i.imgur.com/hprBXVA.jpeg" 
+            alt="Dr. Luiz Francisco Franco" 
             className="w-full h-full object-cover object-top opacity-50"
             referrerPolicy="no-referrer"
           />
@@ -144,7 +161,7 @@ export default function App() {
               <div className="absolute -bottom-4 -right-4 w-24 h-24 border-b-2 border-r-2 border-[#D4AF37]" />
               <img 
                 src="https://i.imgur.com/l8hGeLZ.jpeg" 
-                alt="Dr. Luiz Francisco" 
+                alt="Dr. Luiz Francisco Franco" 
                 className="rounded-2xl grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl"
                 referrerPolicy="no-referrer"
               />
@@ -154,7 +171,7 @@ export default function App() {
               <h2 className="text-4xl md:text-5xl font-serif text-white mb-8">Dr. Luiz Francisco Gonçalves Franco</h2>
               <div className="space-y-6 text-lg text-zinc-400 leading-relaxed font-light">
                 <p>
-                  Sou médico e fundador da <span className="text-white font-medium">Ottoclinic</span>, clínica especializada em estética corporal.
+                  Sou médico e fundador da <span className="text-white font-medium">Ottoclinic</span>, clínica especializada em estética avançada.
                 </p>
                 <p>
                   Ao longo da minha trajetória, me tornei referência em Mini Lipo, sempre priorizando a segurança do paciente, resultados naturais e técnica refinada.
@@ -292,10 +309,10 @@ export default function App() {
           <SectionTitle subtitle>Resultados Reais</SectionTitle>
           <div className="grid md:grid-cols-2 gap-8">
             {[
-              { img: "https://i.imgur.com/CzdsDzp.jpeg", label: "Definição de contorno corporal com técnica de Mini Lipo", tag: "Caso 1 (flanco + culote)" },
-              { img: "https://i.imgur.com/KNwhwUB.jpeg", label: "Técnica aplicada com precisão e resultado natural", tag: "Abdômen intra + resultado" },
-              { img: "https://i.imgur.com/zk8LK48.jpeg", label: "Redução de volume e melhora de contorno", tag: "Caso lateral + posterior" },
-              { img: "https://i.imgur.com/pRMYM78.jpeg", label: "Harmonização corporal com resultado proporcional", tag: "Abdômen completo" }
+              { img: "https://i.imgur.com/CzdsDzp.jpeg", label: "Definição de contorno corporal com técnica de Mini Lipo", tag: "Flanco + Culote + Lipo Transferência Glútea" },
+              { img: "https://i.imgur.com/WFgBZzA.jpeg", label: "Resultado natural com harmonização glútea", tag: "Abdômen + flancos + lipo transferência glútea" },
+              { img: "https://i.imgur.com/beHeJFc.jpeg", label: "Redução de volume e melhora de contorno", tag: "Caso lateral + posterior" },
+              { img: "https://i.imgur.com/mnsw9ym.jpeg", label: "Harmonização corporal com resultado proporcional", tag: "Abdômen + Flancos + Mini Abdominoplastia" }
             ].map((item, i) => (
               <div key={i} className="group relative overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-800">
                 <img 
@@ -339,9 +356,40 @@ export default function App() {
           <p className="text-xl text-zinc-400 font-light italic mb-12">
             "Investimento compatível com o nível de entrega prática e potencial de retorno."
           </p>
-          <div className="bg-red-900/20 border border-red-900/50 p-4 rounded-xl inline-flex items-center gap-3 text-red-500 font-bold uppercase tracking-widest text-sm mb-12">
-            <Zap size={18} />
-            Vagas Limitadas - Turmas Reduzidas
+          
+          <div className="flex flex-col items-center">
+            <motion.div 
+              animate={{ 
+                boxShadow: ["0 0 0px rgba(239, 68, 68, 0)", "0 0 20px rgba(239, 68, 68, 0.4)", "0 0 0px rgba(239, 68, 68, 0)"],
+                borderColor: ["rgba(127, 29, 29, 0.5)", "rgba(239, 68, 68, 1)", "rgba(127, 29, 29, 0.5)"]
+              }}
+              transition={{ repeat: Infinity, duration: 2 }}
+              className="bg-red-900/20 border border-red-900/50 p-4 rounded-xl inline-flex items-center gap-3 text-red-500 font-bold uppercase tracking-widest text-sm mb-6"
+            >
+              <Zap size={18} className="animate-bounce" />
+              Vagas Limitadas - Turmas Reduzidas
+            </motion.div>
+
+            <div className="flex flex-col items-center gap-4">
+              <div className="flex gap-3">
+                <div className="flex flex-col items-center">
+                  <div className="bg-zinc-900 w-16 h-20 md:w-20 md:h-24 rounded-xl border border-zinc-800 flex items-center justify-center text-4xl md:text-5xl font-mono text-white shadow-2xl">
+                    {time.m}
+                  </div>
+                  <span className="text-[10px] text-zinc-500 uppercase tracking-widest mt-2">Minutos</span>
+                </div>
+                <div className="text-[#D4AF37] text-4xl md:text-5xl font-mono self-center -mt-6">:</div>
+                <div className="flex flex-col items-center">
+                  <div className="bg-zinc-900 w-16 h-20 md:w-20 md:h-24 rounded-xl border border-zinc-800 flex items-center justify-center text-4xl md:text-5xl font-mono text-white shadow-2xl">
+                    {time.s}
+                  </div>
+                  <span className="text-[10px] text-zinc-500 uppercase tracking-widest mt-2">Segundos</span>
+                </div>
+              </div>
+              <p className="text-red-500 font-bold text-sm md:text-base uppercase tracking-[0.2em] animate-pulse">
+                Inscreva-se agora antes que as vagas se esgotem!
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -385,7 +433,7 @@ export default function App() {
       <footer className="py-12 bg-black border-t border-zinc-900">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start">
-            <span className="text-white font-serif text-2xl tracking-tighter">DR. LUIZ FRANCISCO</span>
+            <span className="text-white font-serif text-2xl tracking-tighter">DR. LUIZ FRANCISCO FRANCO</span>
             <span className="text-xs text-[#D4AF37] tracking-[0.2em] uppercase">Ottoclinic</span>
           </div>
           <div className="flex gap-6">
