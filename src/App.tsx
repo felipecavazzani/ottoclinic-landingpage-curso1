@@ -280,19 +280,27 @@ export default function App() {
       <section className="py-24 bg-zinc-950">
         <div className="max-w-7xl mx-auto px-6">
           <SectionTitle subtitle>Conteúdo Programático</SectionTitle>
-          <div className="grid md:grid-cols-3 gap-8">
+          
+          <div className="text-center mb-12">
+            <p className="text-[#D4AF37] font-medium tracking-widest uppercase text-sm">
+              Regiões abordadas: Abdômen, Flancos, Costas, Culotes, Braços, Interno de coxa
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { title: "Módulo I", subtitle: "Base e Estrutura", items: ["Anatomia aplicada", "Farmacologia local", "Equipamentos e insumos"] },
               { title: "Módulo II", subtitle: "Planejamento e Segurança", items: ["Seleção de pacientes", "Marcação estratégica", "Protocolos de segurança"] },
-              { title: "Módulo III", subtitle: "Técnica e Execução", items: ["Infiltração tumescente", "Aspiração fracionada", "Pós-operatório imediato"] }
+              { title: "Módulo III", subtitle: "Técnica e Execução", items: ["Infiltração tumescente", "Aspiração fracionada", "Pós-operatório imediato"] },
+              { title: "Módulo Bônus", subtitle: "Técnicas Avançadas", items: ["Mini abdominoplastia", "Lipo transferência glútea", "Mini lipo de média definição"] }
             ].map((mod, i) => (
-              <div key={i} className="bg-zinc-900 p-10 rounded-3xl border-t-4 border-[#D4AF37]">
+              <div key={i} className="bg-zinc-900 p-8 rounded-3xl border-t-4 border-[#D4AF37] flex flex-col">
                 <span className="text-[#D4AF37] font-bold text-sm uppercase tracking-widest mb-2 block">{mod.title}</span>
-                <h4 className="text-2xl text-white font-serif mb-6">{mod.subtitle}</h4>
-                <ul className="space-y-4">
+                <h4 className="text-xl text-white font-serif mb-6">{mod.subtitle}</h4>
+                <ul className="space-y-4 flex-grow">
                   {mod.items.map((item, j) => (
-                    <li key={j} className="flex items-center gap-3 text-zinc-400">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
+                    <li key={j} className="flex items-start gap-3 text-zinc-400 text-sm">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] mt-1.5 shrink-0" />
                       {item}
                     </li>
                   ))}
@@ -414,7 +422,7 @@ export default function App() {
             className="inline-flex items-center gap-4 bg-[#25D366] hover:bg-[#128C7E] text-white px-12 py-6 rounded-full font-bold transition-all text-xl uppercase tracking-widest shadow-[0_0_30px_rgba(37,211,102,0.3)]"
           >
             <MessageCircle size={28} />
-            Falar com a Secretária
+            Realizar Inscrição
           </a>
         </div>
       </section>
@@ -459,7 +467,7 @@ export default function App() {
           className="fixed bottom-8 right-8 z-[100] bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group"
         >
           <div className="absolute -top-12 right-0 bg-white text-black text-xs font-bold px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg">
-            Falar com a Secretária
+            Realizar Inscrição
             <div className="absolute -bottom-1 right-4 w-2 h-2 bg-white rotate-45" />
           </div>
           <MessageCircle size={32} />
