@@ -291,7 +291,7 @@ export default function App() {
             {[
               { title: "Módulo I", subtitle: "Base e Estrutura", items: ["Anatomia aplicada", "Farmacologia local", "Equipamentos e insumos"] },
               { title: "Módulo II", subtitle: "Planejamento e Segurança", items: ["Seleção de pacientes", "Marcação estratégica", "Protocolos de segurança"] },
-              { title: "Módulo III", subtitle: "Técnica e Execução", items: ["Infiltração tumescente", "Aspiração fracionada", "Pós-operatório imediato"] },
+              { title: "Módulo III", subtitle: "Técnica e Execução", items: ["Infiltração tumescente", "Mini Lipo Aspiração", "Pós-operatório imediato"] },
               { title: "Módulo Bônus", subtitle: "Técnicas Avançadas", items: ["Mini abdominoplastia", "Lipo transferência glútea", "Mini lipo de média definição"] }
             ].map((mod, i) => (
               <div key={i} className="bg-zinc-900 p-8 rounded-3xl border-t-4 border-[#D4AF37] flex flex-col">
