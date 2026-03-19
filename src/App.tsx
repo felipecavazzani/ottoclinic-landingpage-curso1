@@ -123,13 +123,6 @@ export default function App() {
                 <ChevronRight className="group-hover:translate-x-1 transition-transform" />
               </a>
               <div className="flex items-center gap-4 px-6 text-zinc-500 text-sm">
-                <div className="flex -space-x-2">
-                  {[1,2,3].map(i => (
-                    <div key={i} className="w-8 h-8 rounded-full border-2 border-black bg-zinc-800 overflow-hidden">
-                      <img src={`https://i.pravatar.cc/100?img=${i+10}`} alt="Student" referrerPolicy="no-referrer" />
-                    </div>
-                  ))}
-                </div>
                 <span>Turmas reduzidas e exclusivas</span>
               </div>
             </div>
