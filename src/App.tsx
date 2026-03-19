@@ -223,7 +223,7 @@ export default function App() {
                   "Escalar faturamento com previsibilidade"
                 ].map((t, i) => (
                   <li key={i} className="flex items-center gap-4 text-xl font-bold uppercase tracking-tight">
-                    <div className="w-8 h-8 rounded-full bg-black text-[#D4AF37] flex items-center justify-center text-sm">0{i+1}</div>
+                    <div className="w-8 h-8 shrink-0 rounded-full bg-black text-[#D4AF37] flex items-center justify-center text-sm">0{i+1}</div>
                     {t}
                   </li>
                 ))}
