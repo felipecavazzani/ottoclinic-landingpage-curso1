@@ -450,9 +450,14 @@ export default function App() {
               @ottoclinic.oficial
             </a>
           </div>
-          <p className="text-zinc-600 text-xs">
-            © 2026 Ottoclinic. Todos os direitos reservados.
-          </p>
+          <div className="flex flex-col items-center md:items-end gap-1">
+            <p className="text-zinc-600 text-[10px] uppercase tracking-wider">
+              Otto Clinic Clinica Medica Ltda - CNPJ 46.476.811/0001-64
+            </p>
+            <p className="text-zinc-600 text-xs">
+              © 2026 Ottoclinic. Todos os direitos reservados.
+            </p>
+          </div>
         </div>
       </footer>
 
