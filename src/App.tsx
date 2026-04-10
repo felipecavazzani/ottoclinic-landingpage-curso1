@@ -15,9 +15,11 @@ import {
   Instagram, 
   ArrowRight,
   ChevronRight,
-  Star
+  Star,
+  Loader2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 const GOLD = "#D4AF37";
 const DARK_GOLD = "#B8860B";
@@ -56,6 +58,16 @@ const Card = ({ children, className = "" }: { children: React.ReactNode, classNa
 );
 
 export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/confirmacao" element={<ConfirmationPage />} />
+    </Routes>
+  );
+}
+
+function LandingPage() {
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -95,19 +107,49 @@ export default function App() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleWhatsAppClick = (eventName: string = 'Contact') => {
+    if (typeof (window as any).fbq === 'function') {
+      (window as any).fbq('track', eventName, {
+        content_name: 'Clique WhatsApp Direto',
+      });
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const message = `Olá! Gostaria de realizar minha inscrição na Mentoria Mini Lipo.\n\n` +
-      `*Dados da Inscrição:*\n` +
-      `Nome: ${formData.nome}\n` +
-      `CPF: ${formData.cpf}\n` +
-      `CRM: ${formData.crm || 'Não informado'}\n` +
-      `Especialidade: ${formData.especialidade || 'Não informada'}\n` +
-      `Cidade: ${formData.cidade}\n` +
-      `WhatsApp: ${formData.whatsapp}`;
+
+    // Disparo do Pixel da Meta
+    if (typeof (window as any).fbq === 'function') {
+      (window as any).fbq('track', 'Lead', {
+        content_name: 'Inscrição Mentoria Mini Lipo',
+        status: 'submitted'
+      });
+    }
+
+    // Enviar Webhook imediatamente
+    try {
+      const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
+      if (webhookUrl) {
+        // Usamos fetch sem esperar obrigatoriamente para não travar a navegação, 
+        // mas aqui vamos esperar para garantir o envio antes de mudar de página
+        await fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...formData,
+            timestamp: new Date().toISOString(),
+            source: 'Mentoria Mini Lipo Landing Page'
+          }),
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao enviar webhook:', error);
+    }
     
-    const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/554399755348?text=${encodedMessage}`, '_blank');
+    // Redirecionar para página de confirmação final
+    navigate('/confirmacao', { state: { confirmed: true } });
   };
 
   return (
@@ -123,6 +165,7 @@ export default function App() {
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => handleWhatsAppClick('Contact')}
             className="hidden md:flex items-center gap-2 bg-[#D4AF37] hover:bg-[#B8860B] text-black px-6 py-2 rounded-full font-bold transition-all text-sm uppercase tracking-wider"
           >
             Garantir Vaga
@@ -163,6 +206,7 @@ export default function App() {
                 href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => handleWhatsAppClick('Contact')}
                 className="flex items-center justify-center gap-3 bg-[#D4AF37] hover:bg-[#B8860B] text-black px-10 py-5 rounded-full font-bold transition-all text-lg uppercase tracking-widest group"
               >
                 Quero me inscrever
@@ -576,6 +620,7 @@ export default function App() {
           href={WHATSAPP_LINK}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => handleWhatsAppClick('Contact')}
           className="fixed bottom-8 right-8 z-[100] bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group"
         >
           <div className="absolute -top-12 right-0 bg-white text-black text-xs font-bold px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg">
@@ -585,6 +630,73 @@ export default function App() {
           <MessageCircle size={32} />
         </motion.a>
       </AnimatePresence>
+    </div>
+  );
+}
+
+function ConfirmationPage() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isConfirmed = location.state?.confirmed;
+
+  useEffect(() => {
+    if (!isConfirmed) {
+      navigate('/');
+    } else {
+      // Disparo do Pixel da Meta para Conversão Final
+      if (typeof (window as any).fbq === 'function') {
+        (window as any).fbq('track', 'CompleteRegistration', {
+          content_name: 'Inscrição Confirmada Mentoria Mini Lipo'
+        });
+      }
+    }
+  }, [isConfirmed, navigate]);
+
+  const handleWhatsAppContactClick = () => {
+    if (typeof (window as any).fbq === 'function') {
+      (window as any).fbq('track', 'Contact');
+    }
+  };
+
+  if (!isConfirmed) return null;
+
+  return (
+    <div className="min-h-screen bg-black text-zinc-300 font-sans flex items-center justify-center p-6 selection:bg-[#D4AF37] selection:text-black">
+      <div className="max-w-xl w-full">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-zinc-900 p-8 md:p-12 rounded-3xl border border-zinc-800 shadow-2xl text-center"
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="space-y-8"
+          >
+            <div className="w-20 h-20 bg-[#D4AF37]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle2 className="text-[#D4AF37]" size={48} />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-serif text-white uppercase tracking-wider">Sua inscrição foi confirmada!</h2>
+            <p className="text-zinc-400 text-lg leading-relaxed">
+              Parabéns! Seus dados foram recebidos com sucesso. Nossa equipe entrará em contato em breve para os próximos passos.
+            </p>
+            
+            <div className="pt-6 border-t border-zinc-800">
+              <p className="text-zinc-500 mb-6 text-sm uppercase tracking-widest">Se quiser falar com a nossa equipe agora:</p>
+              <a 
+                href={`https://wa.me/554399755348?text=Olá! Acabei de confirmar minha inscrição na Mentoria Mini Lipo.`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={handleWhatsAppContactClick}
+                className="flex items-center justify-center gap-4 bg-[#25D366] hover:bg-[#128C7E] text-white px-10 py-5 rounded-full font-bold transition-all text-xl uppercase tracking-widest shadow-[0_0_30px_rgba(37,211,102,0.3)]"
+              >
+                <MessageCircle size={28} />
+                Falar no WhatsApp
+              </a>
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
     </div>
   );
 }
