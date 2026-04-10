@@ -81,6 +81,35 @@ export default function App() {
 
   const time = formatTime(timeLeft);
 
+  const [formData, setFormData] = useState({
+    nome: '',
+    cpf: '',
+    crm: '',
+    especialidade: '',
+    cidade: '',
+    whatsapp: ''
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const message = `Olá! Gostaria de realizar minha inscrição na Mentoria Mini Lipo.\n\n` +
+      `*Dados da Inscrição:*\n` +
+      `Nome: ${formData.nome}\n` +
+      `CPF: ${formData.cpf}\n` +
+      `CRM: ${formData.crm || 'Não informado'}\n` +
+      `Especialidade: ${formData.especialidade || 'Não informada'}\n` +
+      `Cidade: ${formData.cidade}\n` +
+      `WhatsApp: ${formData.whatsapp}`;
+    
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/554399755348?text=${encodedMessage}`, '_blank');
+  };
+
   return (
     <div className="min-h-screen bg-black text-zinc-300 font-sans selection:bg-[#D4AF37] selection:text-black">
       {/* Navigation */}
@@ -404,26 +433,104 @@ export default function App() {
 
       {/* Registration */}
       <section className="py-24 bg-zinc-950">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <SectionTitle subtitle>Inscrição</SectionTitle>
-          <p className="text-xl text-white mb-12">Para garantir sua vaga, envie via WhatsApp:</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-left mb-12">
-            {["Nome Completo", "CPF", "CRM", "Especialidade", "Comprovante do sinal"].map((t, i) => (
-              <div key={i} className="bg-zinc-900 p-4 rounded-xl border border-zinc-800 flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-[#D4AF37]" />
-                <span className="text-zinc-300 text-sm">{t}</span>
+        <div className="max-w-3xl mx-auto px-6">
+          <SectionTitle subtitle>Realizar Inscrição</SectionTitle>
+          <div className="bg-zinc-900 p-8 md:p-12 rounded-3xl border border-zinc-800 shadow-2xl">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="nome" className="block text-xs font-bold text-[#D4AF37] uppercase tracking-widest">Nome Completo *</label>
+                  <input
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    required
+                    value={formData.nome}
+                    onChange={handleInputChange}
+                    className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all"
+                    placeholder="Seu nome completo"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="cpf" className="block text-xs font-bold text-[#D4AF37] uppercase tracking-widest">CPF *</label>
+                  <input
+                    type="text"
+                    id="cpf"
+                    name="cpf"
+                    required
+                    value={formData.cpf}
+                    onChange={handleInputChange}
+                    className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all"
+                    placeholder="000.000.000-00"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="crm" className="block text-xs font-bold text-[#D4AF37] uppercase tracking-widest">CRM</label>
+                  <input
+                    type="text"
+                    id="crm"
+                    name="crm"
+                    value={formData.crm}
+                    onChange={handleInputChange}
+                    className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all"
+                    placeholder="CRM-UF"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="especialidade" className="block text-xs font-bold text-[#D4AF37] uppercase tracking-widest">Especialidade</label>
+                  <input
+                    type="text"
+                    id="especialidade"
+                    name="especialidade"
+                    value={formData.especialidade}
+                    onChange={handleInputChange}
+                    className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all"
+                    placeholder="Sua especialidade"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="cidade" className="block text-xs font-bold text-[#D4AF37] uppercase tracking-widest">Cidade *</label>
+                  <input
+                    type="text"
+                    id="cidade"
+                    name="cidade"
+                    required
+                    value={formData.cidade}
+                    onChange={handleInputChange}
+                    className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all"
+                    placeholder="Sua cidade"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="whatsapp" className="block text-xs font-bold text-[#D4AF37] uppercase tracking-widest">WhatsApp *</label>
+                  <input
+                    type="tel"
+                    id="whatsapp"
+                    name="whatsapp"
+                    required
+                    value={formData.whatsapp}
+                    onChange={handleInputChange}
+                    className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all"
+                    placeholder="(00) 00000-0000"
+                  />
+                </div>
               </div>
-            ))}
+              <button
+                type="submit"
+                className="w-full flex items-center justify-center gap-4 bg-[#25D366] hover:bg-[#128C7E] text-white px-8 py-4 rounded-full font-bold transition-all text-lg uppercase tracking-widest shadow-[0_0_20px_rgba(37,211,102,0.2)] mt-4"
+              >
+                <MessageCircle size={24} />
+                Realizar Inscrição
+              </button>
+            </form>
+            <div className="mt-8 pt-8 border-t border-zinc-800 flex items-start gap-3">
+              <ShieldCheck className="text-[#D4AF37] shrink-0" size={18} />
+              <p className="text-zinc-500 text-xs leading-relaxed">
+                <span className="text-zinc-400 font-bold block mb-1">Privacidade dos Dados:</span>
+                Seus dados estão seguros e serão utilizados exclusivamente para o processo de inscrição e contato direto da equipe do Dr. Francisco Franco. Não compartilhamos suas informações com terceiros.
+              </p>
+            </div>
           </div>
-          <a 
-            href={WHATSAPP_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-4 bg-[#25D366] hover:bg-[#128C7E] text-white px-12 py-6 rounded-full font-bold transition-all text-xl uppercase tracking-widest shadow-[0_0_30px_rgba(37,211,102,0.3)]"
-          >
-            <MessageCircle size={28} />
-            Realizar Inscrição
-          </a>
         </div>
       </section>
 
