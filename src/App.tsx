@@ -71,6 +71,10 @@ function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
+    console.log('Webhook URL carregada:', import.meta.env.VITE_WEBHOOK_URL ? 'Sim' : 'Não');
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -129,10 +133,10 @@ function LandingPage() {
     // Enviar Webhook imediatamente
     try {
       const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
+      console.log('Tentando enviar webhook para:', webhookUrl);
+      
       if (webhookUrl) {
-        // Usamos fetch sem esperar obrigatoriamente para não travar a navegação, 
-        // mas aqui vamos esperar para garantir o envio antes de mudar de página
-        await fetch(webhookUrl, {
+        const response = await fetch(webhookUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -143,6 +147,9 @@ function LandingPage() {
             source: 'Mentoria Mini Lipo Landing Page'
           }),
         });
+        console.log('Resposta do webhook:', response.status, response.statusText);
+      } else {
+        console.warn('VITE_WEBHOOK_URL não está definida no ambiente.');
       }
     } catch (error) {
       console.error('Erro ao enviar webhook:', error);
