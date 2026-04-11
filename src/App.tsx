@@ -71,10 +71,6 @@ function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    console.log('Webhook URL carregada:', import.meta.env.VITE_WEBHOOK_URL ? 'Sim' : 'Não');
-  }, []);
-
-  useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -132,27 +128,31 @@ function LandingPage() {
 
     // Enviar Webhook imediatamente
     try {
-      const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
-      console.log('Tentando enviar webhook para:', webhookUrl);
+      const WEBHOOK_FALLBACK = 'https://webhooks.cruzconsorcio.com.br/webhook/20bf868c-0118-4274-b747-7ee5865ddbad';
+      const webhookUrl = import.meta.env.VITE_WEBHOOK_URL || WEBHOOK_FALLBACK;
       
-      if (webhookUrl) {
-        const response = await fetch(webhookUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            ...formData,
-            timestamp: new Date().toISOString(),
-            source: 'Mentoria Mini Lipo Landing Page'
-          }),
-        });
-        console.log('Resposta do webhook:', response.status, response.statusText);
+      console.log('Iniciando envio do webhook...');
+      
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          timestamp: new Date().toISOString(),
+          source: 'Mentoria Mini Lipo Landing Page',
+          url_origem: window.location.href
+        }),
+      });
+      
+      if (response.ok) {
+        console.log('Webhook enviado com sucesso!');
       } else {
-        console.warn('VITE_WEBHOOK_URL não está definida no ambiente.');
+        console.error('Falha no webhook:', response.status, response.statusText);
       }
     } catch (error) {
-      console.error('Erro ao enviar webhook:', error);
+      console.error('Erro crítico no envio do webhook:', error);
     }
     
     // Redirecionar para página de confirmação final
@@ -168,15 +168,12 @@ function LandingPage() {
             <span className="text-white font-serif text-xl tracking-tighter">DR. FRANCISCO FRANCO</span>
             <span className="text-[10px] text-[#D4AF37] tracking-[0.2em] uppercase">Ottoclinic</span>
           </div>
-          <a 
-            href={WHATSAPP_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => handleWhatsAppClick('Contact')}
+          <button 
+            onClick={() => document.getElementById('inscricao')?.scrollIntoView({ behavior: 'smooth' })}
             className="hidden md:flex items-center gap-2 bg-[#D4AF37] hover:bg-[#B8860B] text-black px-6 py-2 rounded-full font-bold transition-all text-sm uppercase tracking-wider"
           >
             Garantir Vaga
-          </a>
+          </button>
         </div>
       </nav>
 
@@ -209,16 +206,13 @@ function LandingPage() {
               Aprenda na prática. Ganhe segurança. Eleve sua carreira.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a 
-                href={WHATSAPP_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => handleWhatsAppClick('Contact')}
+              <button 
+                onClick={() => document.getElementById('inscricao')?.scrollIntoView({ behavior: 'smooth' })}
                 className="flex items-center justify-center gap-3 bg-[#D4AF37] hover:bg-[#B8860B] text-black px-10 py-5 rounded-full font-bold transition-all text-lg uppercase tracking-widest group"
               >
                 Quero me inscrever
                 <ChevronRight className="group-hover:translate-x-1 transition-transform" />
-              </a>
+              </button>
               <div className="flex items-center gap-4 px-6 text-zinc-500 text-sm">
                 <span>Turmas reduzidas e exclusivas</span>
               </div>
@@ -483,7 +477,7 @@ function LandingPage() {
       </section>
 
       {/* Registration */}
-      <section className="py-24 bg-zinc-950">
+      <section id="inscricao" className="py-24 bg-zinc-950">
         <div className="max-w-3xl mx-auto px-6">
           <SectionTitle subtitle>Realizar Inscrição</SectionTitle>
           <div className="bg-zinc-900 p-8 md:p-12 rounded-3xl border border-zinc-800 shadow-2xl">
@@ -631,7 +625,7 @@ function LandingPage() {
           className="fixed bottom-8 right-8 z-[100] bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group"
         >
           <div className="absolute -top-12 right-0 bg-white text-black text-xs font-bold px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg">
-            Realizar Inscrição
+            Falar no WhatsApp
             <div className="absolute -bottom-1 right-4 w-2 h-2 bg-white rotate-45" />
           </div>
           <MessageCircle size={32} />
