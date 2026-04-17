@@ -613,24 +613,6 @@ function LandingPage() {
         </div>
       </footer>
 
-      {/* Floating WhatsApp Button */}
-      <AnimatePresence>
-        <motion.a
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          href={WHATSAPP_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => handleWhatsAppClick('Contact')}
-          className="fixed bottom-8 right-8 z-[100] bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group"
-        >
-          <div className="absolute -top-12 right-0 bg-white text-black text-xs font-bold px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg">
-            Falar no WhatsApp
-            <div className="absolute -bottom-1 right-4 w-2 h-2 bg-white rotate-45" />
-          </div>
-          <MessageCircle size={32} />
-        </motion.a>
-      </AnimatePresence>
     </div>
   );
 }
